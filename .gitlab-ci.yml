@@ -1,0 +1,12 @@
+stages:
+  - build
+build_bct:
+  tags:
+    - storegood_auto_api
+  stage: build
+  only:
+    - develop
+    - devops
+  script:
+    - ./ci_build.sh
+    - ./ci_run.sh

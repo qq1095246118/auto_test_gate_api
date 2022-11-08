@@ -1,0 +1,11 @@
+*.pyc
+/__pycache__/
+/.pytest_cache/
+*.log
+*.html
+application.py
+/config/config.yaml
+/venv/
+/.idea/
+/.vscode/
+test.py
