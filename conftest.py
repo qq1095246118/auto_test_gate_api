@@ -5,9 +5,6 @@ from utility.public_variable import variable
 
 '''
 @File    :   conftest.py
-@Time    :   2022/06/30 13:17:53
-@Author  :   yanyuanhao
-@Version :   2.0
 @Desc    :   全局的前置条件和后置条件，每次执行时只会执行一次
 '''
 

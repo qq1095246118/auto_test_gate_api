@@ -1,0 +1,22 @@
+host:
+  host: ''
+  redis_host: 'localhost'
+  port: 80
+  username: ''
+  password: '.'
+  data_db: ''
+  data_user: ''
+  data_pawd: ''
+  data_port: ''
+
+
+test160:
+  host: '47.110.62.160'
+  redis_host: 'localhost'
+  port: 8201
+  username: 'script'
+  password: '123456a.'
+  data_db: 'db'
+  data_user: 'root'
+  data_pawd: '123'
+  data_port: '80'

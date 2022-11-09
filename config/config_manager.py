@@ -38,25 +38,17 @@ class ConfigManager:
         host_session = cf.read_host(host)
         # 基本配置信息
         self.host = host
+        self.key = ''
+        self.secret = ''
         self.host_url = "http://" + host_session['host'] + ":" + str(host_session['port'])
         self.user = host_session["username"]
         self.passwd = host_session["password"]
         self.ip = host_session['host']
         # 数据相关配置
-        self.data_user = host_session['data_user']
-        self.data_pawd = host_session['data_pawd']
-        self.data_port = host_session['data_port']
-        self.data_db = host_session['data_db']
-
-    def get_db_vars(self, section):
-        """读取数据库相关配置"""
-        db_session = cf.read_section(section)
-        ip = db_session.get("host")
-        port = db_session.get("port")
-        username = db_session.get("user")
-        password = db_session.get("pawd")
-        database = db_session.get("db")
-        return ip, port, username, password, database
+        # self.data_user = host_session['data_user']
+        # self.data_pawd = host_session['data_pwd']
+        # self.data_port = host_session['data_port']
+        # self.data_db = host_session['data_db']
 
 
 cm = ConfigManager()

@@ -1,6 +1,6 @@
 class PublicVariable(object):
     """
-        全局变量、不可二次赋值
+        全局变量
     """
 
     def __init__(self):

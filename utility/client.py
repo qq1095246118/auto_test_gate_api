@@ -2,12 +2,9 @@
 @File    :   client.py
 @Desc    :   接口底层封装
 """
-import hashlib
 import os
-from time import time
-import requests
-
-from common.api_method import post, get
+from sys import _getframe
+from common.api_method import post, get, gen_sign
 from common.custom_logger import log
 from config.config_manager import cm, project_root_path
 from utility.public_variable import variable
@@ -15,70 +12,53 @@ from utility.public_variable import variable
 
 class BasePage:
     """
-        VMS基础类,基础信息封装类
+        基础信息封装类
     """
 
     def __init__(self):
         """服务器初始化"""
-        cm.reset_host_manage('test71')  # 切换服务器地址
-        self.host = cm.host_url         # 接口URL地址
-        self.username = cm.user         # 登陆用户名
-        self.password = cm.passwd       # 登陆密码
-        self.token = None
-        self.sign = None
+        cm.reset_host_manage('test160')  # 切换服务器地址
+        self.host = cm.host_url  # 接口URL地址
+        self.username = cm.user  # 登陆用户名
+        self.password = cm.passwd  # 登陆密码
+        self.key = '686e6ae37a6b82f958fc0f7905c240dd'
+        self.secret = '2f080386e1db6a412ba2c98749de7de064f2baf359bc62835fd704f001ed59ea'
+        self.method = None
         self.proxies = {
             'http': 'http://localhost:8888',
             'https': 'http://localhost:8888'}
         self.project_root_path = project_root_path  # 项目路径，根目录
         variable.username = cm.user
         variable.password = cm.passwd
-    @log
-    def login_vms(self, username, password):
-        """
-           VMS 登陆方法封装
-           return：token信息
-        """
-        path = '/vms/login.json'
-        url = self.host + path
-        headers = {'Content-Type': 'application/json;charset=UTF-8'}
-        body = {"data": {"loginAccount": username, "loginPwd": hashlib.md5(password.encode()).hexdigest()},
-                "context": {"clientType": "web", "token": "", "clientMac": "", "timestamp": round(time() * 1000),
-                            "brandId": ""}, "sign": "login_vms" + str(round(time() * 1000))}
-        res = requests.post(url, json=body, headers=headers, verify=False).json()
-        # 断言当前登陆状态，登陆失败则抛出异常
-        assert res['errorCode'] == 'SUCCESS' and res['errorMsg'] == '成功', f"预期：SUCCESS 实际：{res['errorCode']}"
-        # 获取token
-        self.token = res['data']['token']
-        return self.token
 
     """
         get、post二次封装
+        初版：二次封装请求信息，请求自动加密headers
+        后期优化：减少gen_sign调用次数，所有二次封装请求自动指向gen_sign后置
     """
 
     @log
-    def get(self, url):
+    def get(self, url, params=None, server='api/v4'):
         """ get 封装方法 """
-        # 若token检测为None则执行登陆方法获取token
-        if self.token is None:
-            self.login_vms(self.username, self.password)
-        res = get(self.host, url, self.token)
-        return res
+        path = f"{server}{url}"
+        if not params and isinstance(params, str):
+            # Get方法的param只允许传str类型，且不允许为None，否则影响加密底层
+            path = f"{server}/{url}?{params}"
+        self.method = _getframe().f_code.co_name
+        # 加密headers，请求自动携带加密信息
+        gen_sign(self.key, self.secret, self.method, url, params)
+        return get(self.host, path).json()
 
     @log
-    def post(self, path, params, server='vms', file_name=None):
+    def post(self, path, params, server='/api/v4', file_name=None):
         """ post 封装方法 """
-        # 若token检测为None则执行登陆方法获取token
-        if self.token is None:
-            self.login_vms(self.username, self.password)
-        # 对sign进行md5加密
-        sign_md5 = self.token + str(round(time() * 1000)) + "key=" + "MKnEu6zaS04N23XoMUL8GOwOKIQwXMvT"
-        self.sign = hashlib.md5(sign_md5.encode('utf-8')).hexdigest().upper()
-        url = f"/{server}{path}"
+        url = f"{server}{path}"
         file_root_path = None
         if file_name:
             file_root_path = os.path.join(self.project_root_path, 'testdata', file_name)
-        res = post(self.host, url, self.token, self.sign, params,
-                   file_root_path, file_name)
+        self.method = _getframe().f_code.co_name
+        gen_sign(self.key, self.secret, self.method, url, params)
+        res = post(self.host, url, params, file_root_path, file_name)
         try:
             res = res.json()
         except ValueError:
@@ -89,7 +69,11 @@ class BasePage:
             return res['result']
         return res
 
+    def __str__(self):
+        # gen_sign(self.key, self.secret, self.method, url, query_string='', body=None)
+        pass
+
 
 request = BasePage()
-if __name__ == '__main__':
-    request.login_vms('13588888888', '123456')
+if __name__ == "__main__":
+    pass
