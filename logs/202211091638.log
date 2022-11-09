@@ -1,0 +1,4 @@
+2022-11-09 16:38:33,951 - [custom_logger.py --> line:68] - INFO : case_name: test_case_01
+2022-11-09 16:38:33,951 - [custom_logger.py --> line:69] - INFO : 
+url:/spot/currencies
+2022-11-09 16:38:33,951 - [custom_logger.py --> line:73] - ERROR : name 'self' is not defined
