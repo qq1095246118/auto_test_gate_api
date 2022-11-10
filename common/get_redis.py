@@ -6,6 +6,8 @@
 
 from redis import StrictRedis
 
+from config.config_manager import cm
+
 
 class RedisBase:
 
@@ -16,8 +18,8 @@ class RedisBase:
         """
             Redis方法封装,默认取出结果为字符串
         """
-        res = StrictRedis(host=cm.host, port=6380, db=1,
-                          password='hzhh&888^', decode_responses=True)
+        res = StrictRedis(host=cm.host,  port=6380, db=1,
+                          password='', decode_responses=True)
         return res
 
     def redis_clear(self):

@@ -15,11 +15,13 @@ class CreateDeleteFront:
     def __init__(self):
         pass
 
-    def create_delete_front_test(self):
+    def create_delete_front_test(self, passwd):
         """
             前置方法-测试
         """
-        pass
+        print('####' * 20)
+        print(f'这个是全局前置的测试方法{passwd}')
+
 
 
 create_delete = CreateDeleteFront()

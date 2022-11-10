@@ -20,3 +20,14 @@ test160:
   data_user: 'root'
   data_pawd: '123'
   data_port: '80'
+
+test170:
+  host: '47.110.62.160'
+  redis_host: 'localhost'
+  port: 8201
+  username: 'script'
+  password: '123456a.'
+  data_db: 'db'
+  data_user: 'root'
+  data_pawd: '123'
+  data_port: '80'

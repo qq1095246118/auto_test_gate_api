@@ -11,7 +11,6 @@ import urllib3
 import requests
 
 # 禁用urllib3
-
 urllib3.disable_warnings()
 
 """
@@ -53,7 +52,7 @@ def post(host, url, params, file_root_path=None, file_name=None):
     print(url)
     if file_name:
         files = {'file': (file_name, open(file_root_path, 'rb'))}
-        result = requests.post(url, json=params, headers=headers, files=files, verify=False,
+        result = requests.post(url, data=params, headers=headers, files=files, verify=False,
                                timeout=(6.05, 180))
     else:
         result = requests.post(url, data=params, headers=headers, verify=False, timeout=(6.05, 180))

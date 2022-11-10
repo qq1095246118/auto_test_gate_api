@@ -17,6 +17,7 @@ project_root_path = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
 cf = Config()
 
+
 class ConfigManager:
     """
         配置文件操作

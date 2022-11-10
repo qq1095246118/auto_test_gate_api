@@ -18,9 +18,9 @@ class BasePage:
     def __init__(self):
         """服务器初始化"""
         cm.reset_host_manage('test160')  # 切换服务器地址
-        self.host = cm.host_url  # 接口URL地址
-        self.username = cm.user  # 登陆用户名
-        self.password = cm.passwd  # 登陆密码
+        self.host = cm.host_url          # 接口URL地址
+        self.username = cm.user          # 登陆用户名
+        self.password = cm.passwd        # 登陆密码
         self.key = 'c321f06c96cd0ab412e43ffd590c2d5a'
         self.secret = '1784d462e4da650fee20de9cb5d8a9242e287bc8f6a6f7a758da33d80a1f9ee7'
         self.method = None
