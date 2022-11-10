@@ -22,10 +22,10 @@ class CaseApi:
             Post调试
         :return:
         """
-        test_check_json = {"text": "t-123456", "currency_pair": "ETH_USDT", "type": "limit", "account": "spot",
-                           "side": "buy", "iceberg": "0", "amount": "1", "price": "5900", "time_in_force": "gtc",
-                           "auto_borrow": False}
-        return request.post('/spot/orders', test_check_json)
+        test_check_json = '{"text": "t-123456", "currency_pair": "GT_USDT", "type": "limit","account": "spot","side": "buy",' \
+                          '"iceberg": "0","amount": "0.5","price": "1655","time_in_force": "gtc","auto_borrow": false}'
+
+        return request.post('/api/v4/spot/orders', test_check_json)
 
 
 case_api = CaseApi()

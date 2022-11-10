@@ -21,8 +21,8 @@ class BasePage:
         self.host = cm.host_url  # 接口URL地址
         self.username = cm.user  # 登陆用户名
         self.password = cm.passwd  # 登陆密码
-        self.key = '686e6ae37a6b82f958fc0f7905c240dd'
-        self.secret = '2f080386e1db6a412ba2c98749de7de064f2baf359bc62835fd704f001ed59ea'
+        self.key = 'c321f06c96cd0ab412e43ffd590c2d5a'
+        self.secret = '1784d462e4da650fee20de9cb5d8a9242e287bc8f6a6f7a758da33d80a1f9ee7'
         self.method = None
         self.proxies = {
             'http': 'http://localhost:8888',
@@ -50,15 +50,14 @@ class BasePage:
         return get(self.host, path).json()
 
     @log
-    def post(self, path, params, server='/api/v4', file_name=None):
+    def post(self, path, params, file_name=None):
         """ post 封装方法 """
-        url = f"{server}{path}"
         file_root_path = None
         if file_name:
             file_root_path = os.path.join(self.project_root_path, 'testdata', file_name)
         self.method = _getframe().f_code.co_name
-        gen_sign(self.key, self.secret, self.method, url, params)
-        res = post(self.host, url, params, file_root_path, file_name)
+        gen_sign(self.key, self.secret, self.method, path, params)
+        res = post(self.host, path, params, file_root_path, file_name)
         try:
             res = res.json()
         except ValueError:

@@ -5,8 +5,6 @@
 """
 import hashlib
 import hmac
-import json
-from sys import _getframe
 from time import time
 
 import urllib3
@@ -21,19 +19,20 @@ urllib3.disable_warnings()
 """
 
 # 公用headers
-headers = {'Access-Token': 'application/json', "Content-Type": 'application/json'}
+headers = {'Accept': 'application/json', 'Content-Type': 'application/json'}
 
 
-def gen_sign(key, secret, method, url, params=None, body=None):
+def gen_sign(key, secret, method, url, params=None):
     """
         请求加密方法封装
     """
-    if params is None:
-        params = ''
-    s = f'{method.upper()}\n{url}\n{params}\n{body}\n{time()}'
+    t = time()
+    m = hashlib.sha512()
+    m.update((params or "").encode('utf-8'))
+    hashed_payload = m.hexdigest()
+    s = f'{method.upper()}\n{url}\n{""}\n{hashed_payload}\n{t}'
     sign = hmac.new(secret.encode('utf-8'), s.encode('utf-8'), hashlib.sha512).hexdigest()
-    sign_headers = {'KEY': key, 'Timestamp': str(time()), 'SIGN': sign}
-    headers.update(sign_headers)
+    headers.update({'KEY': key, 'Timestamp': str(t), 'SIGN': sign})
 
 
 def get(host, url):
@@ -57,7 +56,7 @@ def post(host, url, params, file_root_path=None, file_name=None):
         result = requests.post(url, json=params, headers=headers, files=files, verify=False,
                                timeout=(6.05, 180))
     else:
-        result = requests.post(url, json=params, headers=headers, verify=False, timeout=(6.05, 180))
+        result = requests.post(url, data=params, headers=headers, verify=False, timeout=(6.05, 180))
     return result
 
 
@@ -66,5 +65,3 @@ def delete(host, url):
     url = f'{host}/{url}'
     result = requests.delete(url, headers=headers, verify=False, timeout=(6.05, 180))
     return result
-
-

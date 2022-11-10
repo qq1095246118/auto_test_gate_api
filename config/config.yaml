@@ -3,7 +3,7 @@ host:
   redis_host: 'localhost'
   port: 80
   username: ''
-  password: '.'
+  password: ''
   data_db: ''
   data_user: ''
   data_pawd: ''
