@@ -25,12 +25,12 @@ class TestCaseApi:
         # 第一种调用方式
         # 优点：模块化清晰，调用实例化的服务类的方法较少,比较容易找到封装的方法
         # 缺点：Case或调用较多，对内存影响比较大
-        res = case_api.post_test_api()
+        res = case_api.post_test_api_service()
 
         # 第二种调用方式：
         # 优点：只需要实例化子类，所有api的类的方法都可以通过all_api一个方法进行调用
         # 缺点：若继承类较多，方法会很多，比较难找到你要的方法
-        res = all_api.post_test_api()
+        # res = all_api.post_test_api()
         print('***' * 20)
         print(res)
 
