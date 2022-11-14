@@ -56,7 +56,7 @@ class BasePage:
         if isinstance(params, str):
             pass
         else:
-            params = f'{json.dumps(params)}'
+            params = json.dumps(params)
         file_root_path = None
         if file_name:
             file_root_path = os.path.join(self.project_root_path, 'testdata', file_name)
