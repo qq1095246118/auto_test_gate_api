@@ -14,7 +14,7 @@ class FuturesApi:
     """
 
     @staticmethod
-    def futures_contracts_ist(settle_currency):
+    def futures_contracts_ist(settle_currency='usdt'):
         """
             查询所有的合约信息
         :return:
@@ -33,7 +33,7 @@ class FuturesApi:
         return test_check
 
     @staticmethod
-    def futures_order_book_list(settle_currency):
+    def futures_order_book_list(settle_currency='usdt'):
         """
             查询合约市场深度信息
         """
@@ -41,7 +41,7 @@ class FuturesApi:
         return test_check
 
     @staticmethod
-    def futures_trades_list(settle_currency):
+    def futures_trades_list(settle_currency='usdt'):
         """
             查询市场成交记录
         """
@@ -49,7 +49,7 @@ class FuturesApi:
         return test_check
 
     @staticmethod
-    def futures_candlesticks_list(settle_currency):
+    def futures_candlesticks_list(settle_currency='usdt'):
         """
             合约市场 K 线图
         :return:
@@ -58,7 +58,7 @@ class FuturesApi:
         return test_check
 
     @staticmethod
-    def futures_premium_index_list(settle_currency):
+    def futures_premium_index_list(settle_currency='usdt'):
         """
             合约溢价指数 K 线图
         """
@@ -66,7 +66,7 @@ class FuturesApi:
         return test_check
 
     @staticmethod
-    def futures_tickers_list(settle_currency):
+    def futures_tickers_list(settle_currency='usdt'):
         """
             获取所有合约交易行情统计
         """
@@ -74,7 +74,7 @@ class FuturesApi:
         return test_check
 
     @staticmethod
-    def futures_funding_rate_ist(settle_currency):
+    def futures_funding_rate_ist(settle_currency='usdt'):
         """
             合约市场历史资金费率
         """
@@ -82,7 +82,7 @@ class FuturesApi:
         return test_check
 
     @staticmethod
-    def futures_insurance_list(settle_currency):
+    def futures_insurance_list(settle_currency='usdt'):
         """
             合约市场保险基金历史
         """
@@ -90,7 +90,7 @@ class FuturesApi:
         return test_check
 
     @staticmethod
-    def futures_contract_stats_list(settle_currency):
+    def futures_contract_stats_list(settle_currency='usdt'):
         """
             合约统计信息
         :return:
@@ -109,7 +109,7 @@ class FuturesApi:
         return test_check
 
     @staticmethod
-    def futures_liq_orders_list(settle_currency):
+    def futures_liq_orders_list(settle_currency='usdt'):
         """
             查询强平委托历史
         :return:
@@ -118,7 +118,7 @@ class FuturesApi:
         return test_check
 
     @staticmethod
-    def futures_accounts_list(settle_currency):
+    def futures_accounts_list(settle_currency='usdt'):
         """
             获取合约账号
         :return:
@@ -127,7 +127,7 @@ class FuturesApi:
         return test_check
 
     @staticmethod
-    def futures_account_book_list(settle_currency):
+    def futures_account_book_list(settle_currency='usdt'):
         """
             查询合约账户变更历史
         :return:
@@ -136,7 +136,7 @@ class FuturesApi:
         return test_check
 
     @staticmethod
-    def futures_positions_list(settle_currency):
+    def futures_positions_list(settle_currency='usdt'):
         """
             获取用户仓位列表
         :return:
@@ -162,7 +162,7 @@ class FuturesApi:
             contract:结算标识
         :return:
         """
-        test_check = request.post(f'/api/v4/futures/{settle_currency}/positions/{contract}/margin')
+        test_check = request.post(f'/api/v4/futures/{settle_currency.lower()}/positions/{contract}/margin')
         return test_check
 
     @staticmethod
@@ -174,7 +174,7 @@ class FuturesApi:
         return test_check
 
     @staticmethod
-    def futures_dual_mode(settle_currency):
+    def futures_dual_mode(settle_currency='usdt'):
         """
             设置持仓模式
             变更模式的前提是，所有仓位没有持仓，并且没有挂单
@@ -219,7 +219,7 @@ class FuturesApi:
         """
             合约交易下单
         """
-        test_check = request.post(f'/api/v4/futures/{settle_currency}/orders')
+        test_check = request.post(f'/api/v4/futures/{settle_currency}/orders', test_check_json)
         return test_check
 
     @staticmethod
@@ -243,7 +243,7 @@ class FuturesApi:
         """
             合约-合约交易批量下单
         """
-        test_check = request.post(f'/api/v4/futures/{settle_currency}/batch_orders')
+        test_check = request.post(f'/api/v4/futures/{settle_currency}/batch_orders', test_check_json)
         return test_check
 
     @staticmethod
@@ -271,7 +271,7 @@ class FuturesApi:
         return test_check
 
     @staticmethod
-    def futures_my_trades_list(settle_currency):
+    def futures_my_trades_list(settle_currency='usdt'):
         """
             合约-查询个人成交记录
         """
@@ -279,7 +279,7 @@ class FuturesApi:
         return test_check
 
     @staticmethod
-    def futures_position_close_list(settle_currency):
+    def futures_position_close_list(settle_currency='usdt'):
         """
             合约-查询平仓历史
         """
@@ -287,7 +287,7 @@ class FuturesApi:
         return test_check
 
     @staticmethod
-    def futures_liquidates_list(settle_currency):
+    def futures_liquidates_list(settle_currency='usdt'):
         """
             合约-查询强制平仓历史
         """
@@ -299,7 +299,7 @@ class FuturesApi:
         """
             合约-倒计时取消订单
         """
-        test_check = request.post(f'/api/v4/futures/{settle_currency}/countdown_cancel_all')
+        test_check = request.post(f'/api/v4/futures/{settle_currency}/countdown_cancel_all', test_check_json)
         return test_check
 
     @staticmethod
@@ -311,14 +311,15 @@ class FuturesApi:
         return test_check
 
     @staticmethod
-    def futures_price_orders_list(settle_currency):
+    def futures_price_orders_list(settle_currency='usdt'):
         """
             合约-查询自动订单列表
         """
         test_check = request.get(f'/api/v4/futures/{settle_currency}/price_orders')
         return test_check
 
-    def futures_price_orders_delete(self):
+    @staticmethod
+    def futures_price_orders_delete():
         """
             合约-批量取消自动订单
         """

@@ -13,7 +13,8 @@ class SpotApi:
         现货交易API
     """
 
-    def spot_currencies(self):
+    @staticmethod
+    def spot_currencies():
         """
             查询所有币种信息Api
         :return:
@@ -43,42 +44,48 @@ class SpotApi:
             test_check = request.get('/api/v4/spot/currency_pairs')
         return test_check
 
-    def spot_tickers_qurey(self):
+    @staticmethod
+    def spot_tickers_query():
         """
             获取交易对tickers
         """
         test_check = request.get('/api/v4/spot/tickers')
         return test_check
 
-    def spot_order_book(self):
+    @staticmethod
+    def spot_order_book():
         """
             获取市场深度信息
         """
         test_check = request.get('/api/v4/spot/order_book')
         return test_check
 
-    def spot_trades(self):
+    @staticmethod
+    def spot_trades():
         """
             查询成交记录
         """
         test_check = request.get('/api/v4/spot/trades')
         return test_check
 
-    def spot_candlesticks(self):
+    @staticmethod
+    def spot_candlesticks():
         """
             市场K线图
         """
         test_check = request.get('/api/v4/spot/candlesticks')
         return test_check
 
-    def spot_fee(self):
+    @staticmethod
+    def spot_fee():
         """
             查询账户费率
         """
         test_check = request.get('/api/v4/spot/fee')
         return test_check
 
-    def spot_accounts(self):
+    @staticmethod
+    def spot_accounts():
         """
             获取现货列表
         """
@@ -90,10 +97,11 @@ class SpotApi:
         """
             批量下单
         """
-        test_check = request.post('/api/v4/spot/batch_orders')
+        test_check = request.post('/api/v4/spot/batch_orders', test_check_json)
         return test_check
 
-    def spot_open_orders(self):
+    @staticmethod
+    def spot_open_orders():
         """
             查询所有挂单
         """
@@ -116,14 +124,16 @@ class SpotApi:
         test_check = request.post('/api/v4/spot/orders', test_check_json)
         return test_check
 
-    def spot_orders_list(self):
+    @staticmethod
+    def spot_orders_list():
         """
             查询订单列表
         """
         test_check = request.get('/api/v4/spot/orders')
         return test_check
 
-    def spot_orders_open_status_cancel(self):
+    @staticmethod
+    def spot_orders_open_status_cancel():
         """
             批量取消一个交易对里状态为 open 的订单
         """
@@ -154,14 +164,16 @@ class SpotApi:
         test_check = request.get(f'/api/v4/orders/{order_id}')
         return test_check
 
-    def spot_orders_my_trades_list(self):
+    @staticmethod
+    def spot_orders_my_trades_list():
         """
             查询个人成交记录
         """
         test_check = request.get('/api/v4/spot/my_trades')
         return test_check
 
-    def spot_service_time(self):
+    @staticmethod
+    def spot_service_time():
         """
             获取服务器时间
         """
@@ -173,7 +185,7 @@ class SpotApi:
         """
             倒计时取消
         """
-        test_check = request.post('/api/v4/spot/countdown_cancel_all')
+        test_check = request.post('/api/v4/spot/countdown_cancel_all', test_check_json)
         return test_check
 
     @staticmethod
@@ -181,17 +193,19 @@ class SpotApi:
         """
             创建价格触发订单
         """
-        test_check = request.post('/api/v4/spot/price_orders')
+        test_check = request.post('/api/v4/spot/price_orders', test_check_json)
         return test_check
 
-    def spot_price_orders_conduct_list(self):
+    @staticmethod
+    def spot_price_orders_conduct_list():
         """
             查询进行中自动订单列表
         """
         test_check = request.get('/api/v4/spot/orders')
         return test_check
 
-    def spot_price_orders_delete(self):
+    @staticmethod
+    def spot_price_orders_delete():
         """
             批量取消自动订单
         """

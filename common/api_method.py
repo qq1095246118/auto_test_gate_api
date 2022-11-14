@@ -49,12 +49,12 @@ def post(host, url, params, file_root_path=None, file_name=None):
             file_name：文件名称
     """
     url = f"{host}{url}"
-    print(url)
     if file_name:
         files = {'file': (file_name, open(file_root_path, 'rb'))}
         result = requests.post(url, data=params, headers=headers, files=files, verify=False,
                                timeout=(6.05, 180))
     else:
+
         result = requests.post(url, data=params, headers=headers, verify=False, timeout=(6.05, 180))
     return result
 

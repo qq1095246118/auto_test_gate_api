@@ -15,8 +15,8 @@ class SpotService:
         现货Api二次封装
     """
 
-    def spot_orders_service(self, currency_pair, amount, price=None, text="t" + str(time() * 1000)[:10],
-                            order_type='limit', account='spot', side='buy', iceberg='0', time_in_force="gtc",
+    def spot_orders_service(self, currency_pair, amount, price=None, text="t-" + str(time() * 1000)[:9],
+                            order_type="limit", account="spot", side="buy", iceberg="0", time_in_force="gtc",
                             auto_borrow=False):
         """
             现货下单接口
@@ -39,8 +39,14 @@ class SpotService:
             pass
 
         test_check_json = {"text": text, "currency_pair": currency_pair, "type": order_type,
-                           "account": account, "side": side, "iceberg": iceberg, "amount": amount,
+                           "account": account, "side": side, "iceberg": iceberg, "amount": str(amount),
                            "price": price, "time_in_force": time_in_force, "auto_borrow": auto_borrow}
+
+        json2 = {"text": "t-123456", "currency_pair": "ETH_USDT", "type": "limit", "account": "spot", "side": "buy",
+                 "iceberg": "0", "amount": "0.5", "price": "3540", "time_in_force": "gtc", "auto_borrow": False}
+
+        json3 = {'text': 't1668422231', 'currency_pair': 'ETH_USDT', 'type': 'limit', 'account': 'spot', 'side': 'buy',
+                 'iceberg': '0', 'amount': '1', 'price': '3540', 'time_in_force': 'gtc', 'auto_borrow': False}
         return spot_api.spot_orders_api(test_check_json)
 
 
