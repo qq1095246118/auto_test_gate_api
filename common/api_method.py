@@ -54,7 +54,6 @@ def post(host, url, params, file_root_path=None, file_name=None):
         result = requests.post(url, data=params, headers=headers, files=files, verify=False,
                                timeout=(6.05, 180))
     else:
-
         result = requests.post(url, data=params, headers=headers, verify=False, timeout=(6.05, 180))
     return result
 

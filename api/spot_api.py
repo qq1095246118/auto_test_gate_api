@@ -53,11 +53,11 @@ class SpotApi:
         return test_check
 
     @staticmethod
-    def spot_order_book():
+    def spot_order_book(query_param):
         """
             获取市场深度信息
         """
-        test_check = request.get('/api/v4/spot/order_book')
+        test_check = request.get(f'/spot/order_book?currency_pair={query_param}')
         return test_check
 
     @staticmethod
@@ -65,7 +65,7 @@ class SpotApi:
         """
             查询成交记录
         """
-        test_check = request.get('/api/v4/spot/trades')
+        test_check = request.get('/spot/trades')
         return test_check
 
     @staticmethod
@@ -149,19 +149,19 @@ class SpotApi:
         return test_check
 
     @staticmethod
-    def spot_single_order_list(order_id):
+    def spot_single_order_list(order_id, currency_pair):
         """
             查询单笔订单信息
         """
-        test_check = request.get(f'/api/v4/spot/orders/{order_id}')
+        test_check = request.get(f'/api/v4/spot/orders/{order_id}?currency_pair={currency_pair}')
         return test_check
 
     @staticmethod
-    def spot_orders_delete(order_id):
+    def spot_orders_delete(order_id, currency_pair):
         """
             撤销单个订单
         """
-        test_check = request.get(f'/api/v4/orders/{order_id}')
+        test_check = request.get(f'/api/v4/orders/{order_id}?currency_pair={currency_pair}')
         return test_check
 
     @staticmethod

@@ -30,7 +30,6 @@ class SpotService:
         :param iceberg:冰山下单显示的数量，不指定或传 0 都默认为普通下单。如果需要全部冰山，设置为 -1
         :param time_in_force:Time in force 策略
         :param auto_borrow:杠杆(包括逐仓全仓)交易时，如果账户余额不足，是否由系统自动借入不足部分
-        :return:
         """
         if price is None:
             """

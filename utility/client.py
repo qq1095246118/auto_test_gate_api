@@ -22,8 +22,8 @@ class BasePage:
         self.host = cm.host_url  # 接口URL地址
         self.username = cm.user  # 登陆用户名
         self.password = cm.passwd  # 登陆密码
-        self.key = 'c321f06c96cd0ab412e43ffd590c2d5a'
-        self.secret = '1784d462e4da650fee20de9cb5d8a9242e287bc8f6a6f7a758da33d80a1f9ee7'
+        self.key = 'b2b9edeb52b3c34b865b645ff19a711f'
+        self.secret = '58badce577556909a1b7c6903542995b87bbfbbb68988da126920f9a11797d76'
         self.method = None
         self.proxies = {
             'http': 'http://localhost:8888',
