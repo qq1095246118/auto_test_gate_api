@@ -24,7 +24,7 @@ class CaseApi:
         """
         return request.post('/api/v4/spot/orders', test_check_json)
 
-    def post_test_api_service(self, ):
+    def post_test_api_service(self):
         # test_check_json = {"text": text, "currency_pair": currency_pair, "type": type, "account": accoun,
         #                    "side": side, ''"iceberg": "0", "amount": "0.5", "price": "1655", "time_in_force": "gtc",
         #                    "auto_borrow": False}

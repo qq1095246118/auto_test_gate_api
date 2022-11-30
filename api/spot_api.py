@@ -117,11 +117,11 @@ class SpotApi:
         return test_check
 
     @staticmethod
-    def spot_orders_api(test_check_json):
+    def spot_orders_api(test_check_json, user=None):
         """
             现货下单
         """
-        test_check = request.post('/api/v4/spot/orders', test_check_json)
+        test_check = request.post('/api/v4/spot/orders', test_check_json, user)
         return test_check
 
     @staticmethod

@@ -5,6 +5,7 @@
 """
 import hashlib
 import hmac
+import json
 from time import time
 
 import urllib3
@@ -21,7 +22,7 @@ urllib3.disable_warnings()
 headers = {'Accept': 'application/json', 'Content-Type': 'application/json'}
 
 
-def gen_sign(key, secret, method, url, params=None):
+def gen_sign(key, secret, method, url, query_string, params=None):
     """
         请求加密方法封装
     """
@@ -29,7 +30,8 @@ def gen_sign(key, secret, method, url, params=None):
     m = hashlib.sha512()
     m.update((params or "").encode('utf-8'))
     hashed_payload = m.hexdigest()
-    s = f'{method.upper()}\n{url}\n{""}\n{hashed_payload}\n{t}'
+    # s2 = '%s\n%s\n%s\n%s\n%s' % (method.upper(), url, query_string, hashed_payload, t)
+    s = f'{method.upper()}\n{url}\n{query_string}\n{hashed_payload}\n{t}'
     sign = hmac.new(secret.encode('utf-8'), s.encode('utf-8'), hashlib.sha512).hexdigest()
     headers.update({'KEY': key, 'Timestamp': str(t), 'SIGN': sign})
 

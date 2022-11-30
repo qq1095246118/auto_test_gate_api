@@ -17,9 +17,10 @@ class SpotService:
 
     def spot_orders_service(self, currency_pair, amount, price=None, text="t-" + str(time() * 1000)[:9],
                             order_type="limit", account="spot", side="buy", iceberg="0", time_in_force="gtc",
-                            auto_borrow=False):
+                            auto_borrow=False, user=None):
         """
             现货下单接口
+        :param user:
         :param currency_pair: 交易货币对 必填
         :param amount:下单数量 必填
         :param price: 价格 必填
@@ -40,7 +41,7 @@ class SpotService:
         test_check_json = {"text": text, "currency_pair": currency_pair, "type": order_type,
                            "account": account, "side": side, "iceberg": iceberg, "amount": str(amount),
                            "price": price, "time_in_force": time_in_force, "auto_borrow": auto_borrow}
-        return spot_api.spot_orders_api(test_check_json)
+        return spot_api.spot_orders_api(test_check_json, user)
 
 
 spot_service = SpotService()

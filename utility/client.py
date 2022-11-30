@@ -7,6 +7,7 @@ import os
 from sys import _getframe
 from common.api_method import post, get, gen_sign, delete
 from common.custom_logger import log
+from common.excel_user_key import get_user_key
 from config.config_manager import cm, project_root_path
 from utility.public_variable import variable
 
@@ -39,7 +40,7 @@ class BasePage:
     """
 
     @log
-    def get(self, url, params=None, server='api/v4'):
+    def get(self, url, params=None, server='api/v4', user=None):
         """ get 封装方法 """
         path = f"{server}{url}"
         if not params and isinstance(params, str):
@@ -51,17 +52,27 @@ class BasePage:
         return get(self.host, path).json()
 
     @log
-    def post(self, path, params=None, file_name=None):
+    def post(self, path, params=None, user=None, query_string="", file_name=None):
         """ post 封装方法 """
+        # params处理 支持body str dict类型传参
         if isinstance(params, str):
             pass
         else:
             params = json.dumps(params)
+        # 获取当前方法名称
+        self.method = _getframe().f_code.co_name
         file_root_path = None
         if file_name:
+            # 文件上传
             file_root_path = os.path.join(self.project_root_path, 'testdata', file_name)
-        self.method = _getframe().f_code.co_name
-        gen_sign(self.key, self.secret, self.method, path, params)
+        # 交易对手模块，支持多笔吃单
+        if user:
+            data = get_user_key(user)
+            if data is None:
+                assert False, f"未找到{user}用户的key与secret_key 请检查输入用户名！！"
+            gen_sign(data.get('key'), data.get('secret_key'), self.method, path, query_string, params)
+        else:
+            gen_sign(self.key, self.secret, self.method, path, query_string, params)
         res = post(self.host, path, params, file_root_path, file_name)
         try:
             res = res.json()
@@ -77,7 +88,7 @@ class BasePage:
         """ delete 封装方法 """
         path = f"{server}{url}"
         if not params and isinstance(params, str):
-            # Get方法的param只允许传str类型，且不允许为None，否则影响加密底层
+            # delete方法的param只允许传str类型，且不允许为None，否则影响加密底层
             path = f"{server}/{url}?{params}"
         self.method = _getframe().f_code.co_name
         # 加密headers，请求自动携带加密信息

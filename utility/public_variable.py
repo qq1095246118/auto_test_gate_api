@@ -8,6 +8,6 @@ class PublicVariable(object):
         self.host = ''              # 服务器IP地址
         self.username = ""          # 登陆用户名
         self.password = "123456"          # 登陆密码
-
+        self.userdata = []
 
 variable = PublicVariable()

@@ -20,6 +20,9 @@ def before_after():
     # variable.password 为全局变量演示案例
     create_delete.create_delete_front_test(variable.password)
 
+    # 获取用户数据(key, secret_key)
+    create_delete.user_method()
+
     yield before_after  # 后置条件
     """
         后置方法，全局用例运行后运行，用于删除/运行后的无用数据
