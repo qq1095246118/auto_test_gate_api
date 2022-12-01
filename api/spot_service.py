@@ -15,7 +15,7 @@ class SpotService:
         现货Api二次封装
     """
 
-    def spot_orders_service(self, currency_pair, amount, price=None, text="t-" + str(time() * 1000)[:9],
+    def spot_orders_service(self, currency_pair, amount, price=None, text="t-" + str(time() * 1000)[:6],
                             order_type="limit", account="spot", side="buy", iceberg="0", time_in_force="gtc",
                             auto_borrow=False, user=None):
         """
@@ -37,7 +37,6 @@ class SpotService:
                 当价格为空时，默认查询当前交易对货币价格
             """
             pass
-
         test_check_json = {"text": text, "currency_pair": currency_pair, "type": order_type,
                            "account": account, "side": side, "iceberg": iceberg, "amount": str(amount),
                            "price": price, "time_in_force": time_in_force, "auto_borrow": auto_borrow}

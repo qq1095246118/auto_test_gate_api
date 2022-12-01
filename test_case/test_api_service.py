@@ -17,7 +17,7 @@ class CaseApi:
         return request.get('/spot/currencies')
 
     @staticmethod
-    def post_test_api(test_check_json):
+    def post_test_api(test_check_json=None):
         """
             Post调试
         :return:

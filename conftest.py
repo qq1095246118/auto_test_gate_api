@@ -18,7 +18,7 @@ def before_after():
     """
     # 全局前置演示案例
     # variable.password 为全局变量演示案例
-    create_delete.create_delete_front_test(variable.password)
+    create_delete.create_delete_front_test()
 
     # 获取用户数据(key, secret_key)
     create_delete.user_method()
