@@ -33,10 +33,6 @@ class TestCaseApi:
         # 缺点：若继承类较多，方法会很多，比较难找到你要的方法
         # res = all_api.post_test_api_service()
 
-
-        res = spot_service.spot_orders_service('ETH_USDT', 1, '3540')
+        res = spot_service.spot_orders_service('ETH_USDT', 1, '3540', user="script1")
         print('***' * 20)
         print(res)
-
-
-
