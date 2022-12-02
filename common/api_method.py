@@ -6,12 +6,16 @@
 import hashlib
 import hmac
 import json
+import os
 from time import time
 
+import pandas as pd
 import urllib3
 import requests
 
 # 禁用urllib3
+from utility.public_variable import variable
+
 urllib3.disable_warnings()
 
 """
@@ -20,6 +24,29 @@ urllib3.disable_warnings()
 
 # 公用headers
 headers = {'Accept': 'application/json', 'Content-Type': 'application/json'}
+
+
+def get_user_key(user_name):
+    """
+        获取指定用户key信息
+    """
+    """
+        读取user_info.xlsx表内key， secret_key
+    """
+    user_list = []
+    # 根目录
+    cur_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    # 运行文件目录
+    xls_path = os.path.join(cur_path, 'testdata', 'xlsx', 'user_info.xlsx')
+    # 读取Excel数据信息
+    df = pd.DataFrame(pd.read_excel(io=xls_path, sheet_name="Sheet1"))
+    # 根据行遍历数据
+    for index, row in df.iterrows():
+        data_dict = {'user_name': row.get('user_name'), 'key': row.get('key'), 'secret_key': row.get('secret_key')}
+        user_list.append(data_dict)
+    for data in user_list:
+        if data.get("user_name") == user_name:
+            return data
 
 
 def gen_sign(key, secret, method, url, query_string, params=None):
@@ -56,6 +83,7 @@ def post(host, url, params, file_root_path=None, file_name=None):
         result = requests.post(url, data=params, headers=headers, files=files, verify=False,
                                timeout=(6.05, 180))
     else:
+        print(url)
         result = requests.post(url, data=params, headers=headers, verify=False, timeout=(6.05, 180))
     return result
 

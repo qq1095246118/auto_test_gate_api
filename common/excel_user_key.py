@@ -31,17 +31,17 @@ from utility.public_variable import variable
 #     return data_list
 
 
-def get_user_key(user_name):
-    """
-        获取指定用户key信息
-    """
-    for data in variable.userdata:
-        if data.get("user_name") == user_name:
-            return data
+# def get_user_key(user_name):
+#     """
+#         获取指定用户key信息
+#     """
+#     for data in variable.userdata:
+#         if data.get("user_name") == user_name:
+#             return data
 
 
 if __name__ == '__main__':
     # test1 = user_method()
-    test2 = get_user_key('script')
+    # test2 = get_user_key('script')
     print("####" * 20)
-    print(test2)
+    # print(test2)

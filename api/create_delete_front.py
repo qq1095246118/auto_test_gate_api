@@ -23,6 +23,7 @@ class CreateDeleteFront:
             前置方法-测试
         """
         print(f'这个是全局前置的测试方法')
+
     def user_method(self):
         """
             读取user_info.xlsx表内key， secret_key

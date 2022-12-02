@@ -5,9 +5,8 @@
 import json
 import os
 from sys import _getframe
-from common.api_method import post, get, gen_sign, delete
+from common.api_method import post, get, gen_sign, delete, get_user_key
 from common.custom_logger import log
-from common.excel_user_key import get_user_key
 from config.config_manager import cm, project_root_path
 from utility.public_variable import variable
 
@@ -48,7 +47,7 @@ class BasePage:
             path = f"{server}/{url}?{params}"
         self.method = _getframe().f_code.co_name
         # 加密headers，请求自动携带加密信息
-        gen_sign(self.key, self.secret, self.method, url, params)
+        gen_sign(self.key, self.secret, self.method, path, "", params)
         return get(self.host, path).json()
 
     @log
@@ -70,6 +69,8 @@ class BasePage:
             data = get_user_key(user)
             if data is None:
                 assert False, f"未找到{user}用户的key与secret_key 请检查输入用户名！！"
+            print("****" * 20)
+            print(data.get('key'), data.get('secret_key'))
             gen_sign(data.get('key'), data.get('secret_key'), self.method, path, query_string, params)
         else:
             gen_sign(self.key, self.secret, self.method, path, query_string, params)
