@@ -9,5 +9,6 @@ class PublicVariable(object):
         self.username = ""          # 登陆用户名
         self.password = ""          # 登陆密码
         self.userdata = []
+        self.orderid = ""
 
 variable = PublicVariable()

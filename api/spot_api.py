@@ -153,7 +153,7 @@ class SpotApi:
         """
             查询单笔订单信息
         """
-        test_check = request.get(f'/api/v4/spot/orders/{order_id}?currency_pair={currency_pair}')
+        test_check = request.get(f'/spot/orders/{order_id}?currency_pair={currency_pair}')
         return test_check
 
     @staticmethod

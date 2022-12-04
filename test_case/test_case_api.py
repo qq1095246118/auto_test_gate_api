@@ -3,6 +3,7 @@
 @File    :   test_case_api.py
 """
 from api.all_api import all_api
+from api.spot_api import spot_api
 from api.spot_service import spot_service
 from test_case.test_api_service import case_api
 
@@ -35,8 +36,6 @@ class TestCaseApi:
 
 
         res = spot_service.spot_orders_service('ETH_USDT', 1, '3540')
-        print('***' * 20)
-        print(res)
 
 
 
