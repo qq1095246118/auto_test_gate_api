@@ -3,6 +3,7 @@
 
 # excel用例的读取与执行
 import os
+import time
 
 import allure
 import openpyxl
@@ -42,25 +43,26 @@ def test_case_1(case):
     # 判断Json与用户参数是否为空
     if case[5] is None and case[8] is None:
         if 'orderid' in case[3]:
-            dict_data = {'url': case[2] + case[3].replace("orderid", variable.orderid)}
+            dict_data = {'server': case[2], "path": case[3].replace("orderid", variable.orderid), }
         else:
-            dict_data = {'url': case[2] + case[3]}
+            dict_data = {'server': case[2], "path": case[3]}
     elif case[5] is not None and case[8] is None:
         if 'orderid' in case[3]:
             # 拼接路径，data请求参数，用户信息
-            dict_data = {'url': case[2] + case[3].replace("orderid", variable.orderid), 'json': eval(case[5])}
+            dict_data = {'server': case[2], "path": case[3].replace("orderid", variable.orderid), 'json': str(case[5])}
         else:
-            dict_data = {'url': case[2] + case[3], 'json': eval(case[5])}
+            dict_data = {'server': case[2], "path": case[3], 'json': str(case[5])}
     else:
         if 'orderid' in case[3]:
-            dict_data = {'url': case[2] + case[3].replace("orderid", variable.orderid),
+            dict_data = {'server': case[2], "path": case[3].replace("orderid", variable.orderid),
                          'json': str(case[5]), 'user': case[8]}
         else:
-            dict_data = {'url': case[2] + case[3], 'json': str(case[5]), 'user': case[8]}
+            dict_data = {'server': case[2], "path": case[3], 'json': str(case[5]), 'user': case[8]}
+    time.sleep(1)
     # 模拟请求，将请求参数反射至封装请求内
     res = getattr(ak, case[4])(**dict_data)
     # 将结果写入Excel
-    sheet.cell(row=int(case[0])+1, column=8).value = str(res)
+    sheet.cell(row=int(case[0]) + 1, column=8).value = str(res)
     excel.save(xls_paths)
     try:
         contrast = case[5]

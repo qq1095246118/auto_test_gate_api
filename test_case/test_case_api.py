@@ -36,6 +36,8 @@ class TestCaseApi:
 
 
         res = spot_service.spot_orders_service('ETH_USDT', 1, '3540')
+        # res2 = spot_api.spot_single_order_list(res['id'], 'ETH_USDT')
+
 
 
 

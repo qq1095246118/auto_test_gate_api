@@ -15,22 +15,9 @@ import allure
 import jsonpath
 import requests
 
-from common.api_method import gen_sign, get, get_user_key
+from common.api_method import get_user_key
 
 headers = {'Accept': 'application/json', 'Content-Type': 'application/json'}
-
-
-def gen_sign(method, url, query_string=None, payload_string=None):
-    key = ''        # api_key
-    secret = ''     # api_secret
-
-    t = time.time()
-    m = hashlib.sha512()
-    m.update((payload_string or "").encode('utf-8'))
-    hashed_payload = m.hexdigest()
-    s = '%s\n%s\n%s\n%s\n%s' % (method, url, query_string or "", hashed_payload, t)
-    sign = hmac.new(secret.encode('utf-8'), s.encode('utf-8'), hashlib.sha512).hexdigest()
-    return {'KEY': key, 'Timestamp': str(t), 'SIGN': sign}
 
 
 def excel_gen_sign(key, secret, method, url, query_string, params=None):
@@ -59,7 +46,8 @@ class ApiKey:
 
     # get请求的封装：因为params可能存在无值的情况，存放默认None
     @allure.step("发送get请求")
-    def get(self, url, params=None, **kwargs):
+    def get(self, path, params=None, **kwargs):
+        url = f"{kwargs['server']}{path}"
         method = _getframe().f_code.co_name
         # 交易对手模块，支持多笔吃单
         if "user" in kwargs:
@@ -67,17 +55,25 @@ class ApiKey:
             if data_key is None:
                 assert False, f"未找到{kwargs['user']}用户的key与secret_key 请检查输入用户名！！"
             # 加密headers，请求自动携带加密信息
-            excel_gen_sign(data_key.get('key'), data_key.get('secret_key'), method, url, "", str(params))
+            excel_gen_sign(data_key.get('key'), data_key.get('secret_key'), method, path.split('?')[0],
+                           path.split('?')[1], str(params))
         else:
             print(url)
-            excel_gen_sign(self.excel_key, self.excel_secret, method, url, "", params)
-        result = requests.get(url, headers=headers, data=params, verify=False, timeout=(6.05, 180)).json()
-        print(result)
-        return result
+            excel_gen_sign(self.excel_key, self.excel_secret, method, path.split('?')[0], path.split('?')[1], params)
+        result = requests.get(url, headers=headers, data=params, verify=False, timeout=(6.05, 180))
+        try:
+            res = result.json()
+        except ValueError:
+            return result
+        if isinstance(result, bool):
+            return result
+        return res
 
     @allure.step("发送post请求")
     # post请求的封装：data也可能存在无值得情况，存放默认None
-    def post(self, url, **kwargs):
+    def post(self, path, **kwargs):
+        url = f"{kwargs['server']}{path}"
+        print(kwargs)
         method = _getframe().f_code.co_name
         # 交易对手模块，支持多笔吃单
         if kwargs['user']:
@@ -85,13 +81,18 @@ class ApiKey:
             if data_key is None:
                 assert False, f"未找到{kwargs['user']}用户的key与secret_key 请检查输入用户名！！"
             # 加密headers，请求自动携带加密信息
-            excel_gen_sign(data_key.get('key'), data_key.get('secret_key'), method, '/api/v4/spot/orders', "",
+            excel_gen_sign(data_key.get('key'), data_key.get('secret_key'), method, path, "",
                            str(kwargs['json']))
         else:
-            excel_gen_sign(self.excel_key, self.excel_secret, method, url, "", str(kwargs['json']))
-        result = requests.post(url, data=str(kwargs['json']), headers=headers, verify=False, timeout=(6.05, 180)).json()
-        print(result)
-        return result
+            excel_gen_sign(self.excel_key, self.excel_secret, method, path, "", str(kwargs['json']))
+        result = requests.post(url, data=str(kwargs['json']), headers=headers, verify=False, timeout=(6.05, 180))
+        try:
+            res = result.json()
+        except ValueError:
+            return result
+        if isinstance(result, bool):
+            return result
+        return res
 
     @allure.step("获取返回结果字典值")
     # 基于jsonpath获取数据的关键字：用于提取所需要的内容
@@ -102,4 +103,3 @@ class ApiKey:
         dict_data = json.loads(data)
         value = jsonpath.jsonpath(dict_data, '$..{0}'.format(key))
         return value[0]
-
