@@ -47,7 +47,7 @@ class BasePage:
             path = f"{server}/{url}?{params}"
         self.method = _getframe().f_code.co_name
         # 加密headers，请求自动携带加密信息
-        gen_sign(self.key, self.secret, self.method, path, "", params)
+        gen_sign(self.key, self.secret, self.method, url.split('?')[0], url.split('?')[1], params)
         return get(self.host, path).json()
 
     @log
@@ -93,7 +93,7 @@ class BasePage:
             path = f"{server}/{url}?{params}"
         self.method = _getframe().f_code.co_name
         # 加密headers，请求自动携带加密信息
-        gen_sign(self.key, self.secret, self.method, url, params)
+        gen_sign(self.key, self.secret, self.method, url.split('?')[0], url.split('?')[1], params)
         return delete(self.host, path).json()
 
     def __str__(self):

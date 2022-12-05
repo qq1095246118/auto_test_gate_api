@@ -58,9 +58,9 @@ class TestSpot:
         assert test_check['currency_pair'] == 'BTC_USDT' and test_check['amount'] == "1" \
                and test_check['price'] == "3000", f"预期结果：{test_check}"
         # 撤单
-        order_delete = spot_service.spot_orders_delete(test_check['text'], "BTC_USDT")
-        time.sleep(8)
-        assert order_delete['currency_pair'] == "BTC_USDT" and order_delete['status'] == "cancelled"
+        order_delete = spot_api.spot_orders_delete(test_check['id'], "BTC_USDT")
+        time.sleep(2)
+        # assert order_delete['currency_pair'] == "BTC_USDT" and order_delete['status'] == "cancelled"
 
     def test_spot_cancel_multiple_orders(self):
         """

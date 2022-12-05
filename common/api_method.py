@@ -91,5 +91,6 @@ def post(host, url, params, file_root_path=None, file_name=None):
 def delete(host, url):
     """delete method"""
     url = f'{host}/{url}'
+    print(url)
     result = requests.delete(url, headers=headers, verify=False, timeout=(6.05, 180))
     return result

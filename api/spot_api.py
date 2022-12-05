@@ -161,7 +161,7 @@ class SpotApi:
         """
             撤销单个订单
         """
-        test_check = request.get(f'/api/v4/orders/{order_id}?currency_pair={currency_pair}')
+        test_check = request.delete(f'/spot/orders/{order_id}?currency_pair={currency_pair}')
         return test_check
 
     @staticmethod
