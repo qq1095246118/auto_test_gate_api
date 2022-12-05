@@ -39,7 +39,7 @@ class BasePage:
     """
 
     @log
-    def get(self, url, params=None, server='api/v4', user=None):
+    def get(self, url, params=None, server='/api/v4', user=None):
         """ get 封装方法 """
         path = f"{server}{url}"
         if not params and isinstance(params, str):
@@ -69,8 +69,6 @@ class BasePage:
             data = get_user_key(user)
             if data is None:
                 assert False, f"未找到{user}用户的key与secret_key 请检查输入用户名！！"
-            print("****" * 20)
-            print(data.get('key'), data.get('secret_key'))
             gen_sign(data.get('key'), data.get('secret_key'), self.method, path, query_string, params)
         else:
             gen_sign(self.key, self.secret, self.method, path, query_string, params)
@@ -84,8 +82,8 @@ class BasePage:
         if 'result' in res:
             return res['result']
         return res
-
-    def delete(self, url, params=None, server='api/v4'):
+    @log
+    def delete(self, url, params=None, server='/api/v4'):
         """ delete 封装方法 """
         path = f"{server}{url}"
         if not params and isinstance(params, str):
@@ -93,7 +91,7 @@ class BasePage:
             path = f"{server}/{url}?{params}"
         self.method = _getframe().f_code.co_name
         # 加密headers，请求自动携带加密信息
-        gen_sign(self.key, self.secret, self.method, url.split('?')[0], url.split('?')[1], params)
+        gen_sign(self.key, self.secret, self.method, server+url.split('?')[0], url.split('?')[1], params)
         return delete(self.host, path).json()
 
     def __str__(self):

@@ -65,8 +65,7 @@ def gen_sign(key, secret, method, url, query_string, params=None):
 
 def get(host, url):
     """get method"""
-    url = f'{host}/{url}'
-    print(url)
+    url = f'{host}{url}'
     result = requests.get(url, headers=headers, verify=False, timeout=(6.05, 180))
     return result
 
@@ -83,14 +82,12 @@ def post(host, url, params, file_root_path=None, file_name=None):
         result = requests.post(url, data=params, headers=headers, files=files, verify=False,
                                timeout=(6.05, 180))
     else:
-        print(url)
         result = requests.post(url, data=params, headers=headers, verify=False, timeout=(6.05, 180))
     return result
 
 
 def delete(host, url):
     """delete method"""
-    url = f'{host}/{url}'
-    print(url)
+    url = f'{host}{url}'
     result = requests.delete(url, headers=headers, verify=False, timeout=(6.05, 180))
     return result

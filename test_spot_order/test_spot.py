@@ -41,14 +41,11 @@ class TestSpot:
         # 现货下单-卖 全部成交
         # test_check = spot_service.spot_orders_service('BTC_USDT', 1, "3000", side="sell")
 
-
     def test_spot_cancel_the_order(self):
         """
             现货下单后撤单-单笔
         :return:
         """
-        # 查询账户余额
-        balances = all_api.wallet_sub_account_balances_list()
         # 查询市场深度
         book_data = spot_api.spot_order_book('BTC_USDT')
         assert book_data['asks'] != [] and book_data['bids'] != [], \
@@ -59,16 +56,15 @@ class TestSpot:
                and test_check['price'] == "3000", f"预期结果：{test_check}"
         # 撤单
         order_delete = spot_api.spot_orders_delete(test_check['id'], "BTC_USDT")
-        time.sleep(2)
-        # assert order_delete['currency_pair'] == "BTC_USDT" and order_delete['status'] == "cancelled"
+        # 断言订单，是否撤单成功
+        assert order_delete['id'] == test_check['id'] and order_delete['currency_pair'] == "BTC_USDT" \
+               and order_delete['status'] == "cancelled"
 
     def test_spot_cancel_multiple_orders(self):
         """
             现货下单后撤单-先买后卖-部分成交
         :return:
         """
-        # 查询账户余额
-        balances = all_api.wallet_sub_account_balances_list()
         # 查询市场深度
         book_data = spot_api.spot_order_book('BTC_USDT')
         assert book_data['asks'] != [] and book_data['bids'] != [], \
@@ -77,4 +73,3 @@ class TestSpot:
         test_check = spot_service.spot_orders_service('BTC_USDT', 1, "3000")
         assert test_check['currency_pair'] == 'BTC_USDT' and test_check['amount'] == "1" \
                and test_check['price'] == "3000", f"预期结果："
-
